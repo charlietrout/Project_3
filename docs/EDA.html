@@ -57,24 +57,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="EDA_files/libs/clipboard/clipboard.min.js"></script>
-<script src="EDA_files/libs/quarto-html/quarto.js"></script>
-<script src="EDA_files/libs/quarto-html/popper.min.js"></script>
-<script src="EDA_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="EDA_files/libs/quarto-html/anchor.min.js"></script>
-<link href="EDA_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="EDA_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="EDA_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="EDA_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="EDA_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
 
 </head>
 
 <body class="fullcontent">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -116,7 +153,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor conversion for response and selected predictors that are categorical</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Diabetes_binary <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>Diabetes_binary, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No Diabetes"</span>, <span class="st">"Diabetes"</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Diabetes_binary <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>Diabetes_binary, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No.Diabetes"</span>, <span class="st">"Diabetes"</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>HighBP <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>HighBP, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No High BP"</span>, <span class="st">"High BP"</span>))</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>HighChol <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>HighChol, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"No High Cholesterol"</span>, <span class="st">"High Cholesterol"</span>))</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>Smoker <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>Smoker, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Non-Smoker"</span>, <span class="st">"Smoker"</span>))</span>
@@ -136,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="summarizations" class="level2">
 <h2 class="anchored" data-anchor-id="summarizations">Summarizations</h2>
-<p>To take a closer look at our predictors and their relationships with the response variable, we created numerical and visual summaries for each predictor. Looking at the numerical summaries (contingency tables) of the categorical predictors, we see that about 3/4 of the people observed here that have diabetes also have high blood pressure. This ratio though is not as strong when looking at high cholesterol as only 2/3 of subjects that have diabetes also have high cholesterol which is interesting to note as all patients that have diabetes may have only high blood pressure, and not always both. Looking at smoking, only about half of subjects with diabetes smoke as well. This is interesting as smoking may not have as big of an influence as we first thought. Moving onto PhysActivity, only about 37% of people with diabetes have not exercised out of work. This variable is a bit misleading though as it says exercises at least once in the past 30 days outside of work. That means subjects could have only exercised once in 30 days but that would still count for this variable which really hurts the value in the usage of this predictor. Looking at HvyAlcoholConsump, less than 5% of the people with diabetes are considered heavy drinkers, so this pretty much eliminates any usage of this predictor in the upcoming models. The reason for extremely low value could be the extreme definition of a heavy drinker being 14 drinks for males and 7 drinkers for females per week which is quite high on a week to week basis. The more likely scenario is there are a bunch of people that drink a bit less than this, but cannot be captured by the definition of this predictor. Looking at Sex, there are a bit more females with diabetes amounting to 2000 more, but there are also almost 30000 more females in the study than males. This shows how much more common diabetes is in males than females. For age, it looks like in the younger age groups like 18-24 and 25-29, less than 2% of participants have diabetes. Moving to a middle age group like 45-49, this percentage increases to around 9%. For the older age groups like 75-79 and 80+, this percentage increases to around 20%. This shows how diabetes certainly becomes more common as you age. Looking at the numeric summary of BMI, a median BMI of 27 shows that we are dealing with a slightly overweight sample which is important to take into account as a higher BMI can be caused by or a side effect of other lifestyle factors present in this dataset. Looking at the boxplot for BMI comparing people with and without diabetes, the people with diabetes certainly have a higher average BMI than those that do not as the BMI of the 75th percentile of people without diabetes is approximately equal to the BMI of the 50th percentile of people with diabetes. This is again emphasized in the overlapping histgrams for BMI as the no diabetes groups is certainly more right skewed than the diabetes group as the individuals with no diabetes tend to have lower BMI’s generally. The barplots show a visual representation of the contingency tables again remphasizing the relationships observed above. This can be very clearly seen in the age barplot as the 35-39 and 75-79 age groups have roughly the same number of people without diabetes, but the 75-79 age group has a substantially higher amount of people with diabetes.</p>
+<p>To take a closer look at our predictors and their relationships with the response variable, we created numerical and visual summaries for each predictor. Looking at the numerical summaries (contingency tables) of the categorical predictors, we see that about 3/4 of the people observed here that have diabetes also have high blood pressure. This ratio though is not as strong when looking at high cholesterol as only 2/3 of subjects that have diabetes also have high cholesterol which is interesting to note as all patients that have diabetes may have only high blood pressure, and not always both. Looking at smoking, only about half of subjects with diabetes smoke as well. This is interesting as smoking may not have as big of an influence as we first thought. Moving onto PhysActivity, only about 37% of people with diabetes have not exercised out of work. This variable is a bit misleading though as it says exercises at least once in the past 30 days outside of work. That means subjects could have only exercised once in 30 days but that would still count for this variable which really hurts the value in the usage of this predictor. Looking at HvyAlcoholConsump, less than 5% of the people with diabetes are considered heavy drinkers, so this pretty much eliminates any usage of this predictor in the upcoming models. The reason for extremely low value could be the extreme definition of a heavy drinker being 14 drinks for males and 7 drinkers for females per week which is quite high on a week to week basis. The more likely scenario is there are a bunch of people that drink a bit less than this, but cannot be captured by the definition of this predictor. Looking at Sex, there are a bit more females with diabetes amounting to 2000 more, but there are also almost 30000 more females in the study than males. This shows how much more common diabetes is in males than females. For age, it looks like in the younger age groups like 18-24 and 25-29, less than 2% of participants have diabetes. Moving to a middle age group like 45-49, this percentage increases to around 9%. For the older age groups like 75-79 and 80+, this percentage increases to around 20%. This shows how diabetes certainly becomes more common as you age. Looking at the numeric summary of BMI, a median BMI of 27 shows that we are dealing with a slightly overweight sample which is important to take into account as a higher BMI can be caused by or a side effect of other lifestyle factors present in this dataset. Looking at the boxplot for BMI comparing people with and without diabetes, the people with diabetes certainly have a higher average BMI than those that do not as the BMI of the 75th percentile of people without diabetes is approximately equal to the BMI of the 50th percentile of people with diabetes. This is again emphasized in the overlapping histgrams for BMI as the no diabetes groups is certainly more right skewed than the diabetes group as the individuals with no diabetes tend to have lower BMI’s generally. The barplots show a visual representation of the contingency tables again remphasizing the relationships observed above. This can be very clearly seen in the age barplot as the 35-39 and 75-79 age groups have roughly the same number of people without diabetes, but the 75-79 age group has a substantially higher amount of people with diabetes. This again reinforces the fact that age plays a signficant role in determining if someone has diabetes or not especially in the extreme groups.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load in required packages</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -144,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>tibble [253,680 × 9] (S3: tbl_df/tbl/data.frame)
- $ Diabetes         : Factor w/ 2 levels "No Diabetes",..: 1 1 1 1 1 1 1 1 2 1 ...
+ $ Diabetes         : Factor w/ 2 levels "No.Diabetes",..: 1 1 1 1 1 1 1 1 2 1 ...
  $ HighBP           : Factor w/ 2 levels "No High BP","High BP": 2 1 2 2 2 2 2 2 2 1 ...
  $ HighChol         : Factor w/ 2 levels "No High Cholesterol",..: 2 1 2 1 2 2 1 2 2 1 ...
  $ BMI              : num [1:253680] 40 25 28 27 24 25 30 25 30 24 ...
@@ -158,7 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Diabetes             HighBP                      HighChol     
- No Diabetes:218334   No High BP:144851   No High Cholesterol:146089  
+ No.Diabetes:218334   No High BP:144851   No High Cholesterol:146089  
  Diabetes   : 35346   High BP   :108829   High Cholesterol   :107591  
                                                                       
                                                                       
@@ -196,47 +233,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Table for Diabetes vs HighBP 
              
               No High BP High BP
-  No Diabetes     136109   82225
+  No.Diabetes     136109   82225
   Diabetes          8742   26604
 
 Table for Diabetes vs HighChol 
              
               No High Cholesterol High Cholesterol
-  No Diabetes              134429            83905
+  No.Diabetes              134429            83905
   Diabetes                  11660            23686
 
 Table for Diabetes vs Smoker 
              
               Non-Smoker Smoker
-  No Diabetes     124228  94106
+  No.Diabetes     124228  94106
   Diabetes         17029  18317
 
 Table for Diabetes vs PhysActivity 
              
               Has Not Exercised Outside of Work Has Exercised Outside of Work
-  No Diabetes                             48701                        169633
+  No.Diabetes                             48701                        169633
   Diabetes                                13059                         22287
 
 Table for Diabetes vs HvyAlcoholConsump 
              
               Non-Heavy Drinker Heavy Drinker
-  No Diabetes            204910         13424
+  No.Diabetes            204910         13424
   Diabetes                34514           832
 
 Table for Diabetes vs Sex 
              
               Female   Male
-  No Diabetes 123563  94771
+  No.Diabetes 123563  94771
   Diabetes     18411  16935
 
 Table for Diabetes vs Age 
              
               18-24 25-29 30-34 35-39 40-44 45-49 50-54 55-59 60-64 65-69 70-74
-  No Diabetes  5622  7458 10809 13197 15106 18077 23226 26569 27511 25636 18392
+  No.Diabetes  5622  7458 10809 13197 15106 18077 23226 26569 27511 25636 18392
   Diabetes       78   140   314   626  1051  1742  3088  4263  5733  6558  5141
              
               75-79 80 or older
-  No Diabetes 12577       14154
+  No.Diabetes 12577       14154
   Diabetes     3403        3209</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerical summary of BMI</span></span>
@@ -337,10 +374,11 @@ Table for Diabetes vs Age
 </div>
 </div>
 <p><a href="Modeling.html">Click here for the Modeling Page</a></p>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
