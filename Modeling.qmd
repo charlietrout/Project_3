@@ -1,0 +1,186 @@
+---
+title: "Modeling"
+format: html
+editor: visual
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+## Introduction
+The purpose of modeling here is to refine the 8 original predictor set to improve model performance given EDA findings. Based off the EDA findings, we will be dropping the PhysActivity and HvyAlcoholConsump predictors as had definitions that were too extreme which made them less valuable than they could of been as the data was quite misleading specifically with PhysActivity as it only required you exercise once outside of your job in the last 30 days. Even exercising once in 30 days is considered quite a severe sedentary lifestyle and would still contribute to serious health consequences so that predictor could not be used. HvyAlcoholConsump also had a too of an extreme definition as 14 drinks for males and 7 for females per week is quite extreme where majority of people do not reach that high of a threshold but may be a bit lower. With this strict and extreme definition, those people who still drink a good amount but not up to the extreme definition would not be captured by this variable. After the removal of these 2 predictors, we will build different predictive models based off the refined feature set such as logistic regression, classification trees, and random forest models for this task. Our goal is to identify the most effective model for predicting the binary outcome variable, "Diabetes", using a training/test split of the data along with 5 fold cross validation and then evaluating the models' performances based on log loss and selecting the best one. Log loss measures the performance of a binary classification model by measuring the accuracy of its predicted probabilities. Accuracy only counts the number of correct predictions, but log loss takes into account the confidence of these predictions as well. This means that log loss will penalize models more heavily for being confidently wrong. Considering these predicted probabilities instead of solely final classifications provides a more detailed assessment of model performance. This makes it quite valuable in situations where the confidence of predictions is crucial for decision-making (like a situation in diagnosing someone with a disease if they have it or not).
+
+
+```{r}
+# Load in required packages
+library(caret)
+library(readr)
+library(dplyr)
+# Load in dataset
+dat <- read_csv("diabetes_binary_health_indicators_BRFSS2015.csv")
+# Factor conversion for response and selected predictors that are categorical
+dat$Diabetes_binary <- factor(dat$Diabetes_binary, levels = c(0, 1), labels = c("No.Diabetes", "Diabetes"))
+dat$HighBP <- factor(dat$HighBP, levels = c(0, 1), labels = c("No High BP", "High BP"))
+dat$HighChol <- factor(dat$HighChol, levels = c(0, 1), labels = c("No High Cholesterol", "High Cholesterol"))
+dat$Smoker <- factor(dat$Smoker, levels = c(0, 1), labels = c("Non-Smoker", "Smoker"))
+dat$HvyAlcoholConsump <- factor(dat$HvyAlcoholConsump, levels = c(0, 1), labels = c("Non-Heavy Drinker", "Heavy Drinker"))
+dat$PhysActivity <- factor(dat$PhysActivity, levels = c(0, 1), labels = c("Has Not Exercised Outside of Work", "Has Exercised Outside of Work"))
+dat$Sex <- factor(dat$Sex, levels = c(0, 1), labels = c("Female", "Male"))
+dat$Age <- factor(dat$Age, 
+                       levels = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13), 
+                       labels = c("18-24", "25-29", "30-34", "35-39", "40-44", 
+                                  "45-49", "50-54", "55-59", "60-64", "65-69", 
+                                  "70-74", "75-79", "80 or older"))
+#Rename response variable for simplicity
+dat <- dat |> rename(Diabetes = Diabetes_binary)
+cols_to_keep <- c("Diabetes", "HighBP", "HighChol", "BMI", "Smoker", "PhysActivity", "HvyAlcoholConsump", "Sex", "Age")
+dat <- dat[,cols_to_keep]
+# Setting the seed to make things reproducible
+set.seed(123)
+# Splitting the data into training and test sets
+trainIndex <- createDataPartition(dat$Diabetes, p = 0.7, list = FALSE)
+trainData <- dat[trainIndex, ]
+testData <- dat[-trainIndex, ]
+```
+
+
+## Logistic Regression Models
+\> A logistic regression model is statistical method where the response variable is binary, so there are only 2 outcomes. The goal is to model the probability of a given input belonging to a certain category. Logistic regression estimates the probability of an event occurring by applying the logistic function. This function maps any real-valued number into a range between 0 and 1, representing the probability of the binary outcome. The model is expressed as a linear combination of predictor variables, and the coefficients indicate the change in the log odds of the outcome for a one-unit change in each predictor. We apply a logistic regression model to this kind of data because the response variable we are dealing with whether someone has diabetes or not is a binary variable which satisfies the main requirement to use logistic regression.
+```{r}
+# Define the control for cross-validation
+train_control <- trainControl(method = "cv", number = 5, summaryFunction = mnLogLoss, classProbs = TRUE)
+
+# Fit logistic regression models with different predictor sets
+# Full model
+logistic_model1 <- train(Diabetes ~ HighBP + HighChol + BMI + Smoker + Sex + Age,
+                         data = trainData,
+                         method = "glm",
+                         family = "binomial",
+                         trControl = train_control,
+                         metric = "logLoss")
+# Model without Sex and Smoker
+logistic_model2 <- train(Diabetes ~ HighBP + HighChol + BMI + Age,
+                         data = trainData,
+                         method = "glm",
+                         family = "binomial",
+                         trControl = train_control,
+                         metric = "logLoss")
+# Model without Sex, Smoker, and Age
+logistic_model3 <- train(Diabetes ~ HighBP + HighChol + BMI,
+                         data = trainData,
+                         method = "glm",
+                         family = "binomial",
+                         trControl = train_control,
+                         metric = "logLoss")
+
+# Compare models
+resamples <- resamples(list(Model1 = logistic_model1, Model2 = logistic_model2, Model3 = logistic_model3))
+summary(resamples)
+```
+
+
+
+## Classification Tree
+```{r}
+# Load in required packages
+library(rpart)
+library(rpart.plot)
+# Setting the seed to make things reproducible
+set.seed(123)
+# Define the control for cross-validation
+train_control <- trainControl(method = "cv", 
+                              number = 5, 
+                              summaryFunction = mnLogLoss, 
+                              classProbs = TRUE)
+
+# Define a grid for the complexity parameter (cp)
+tune_grid <- expand.grid(cp = seq(0, 0.1, by = 0.001))
+
+# Train a classification tree model with varying cp values
+tree_model <- train(Diabetes ~ HighBP + HighChol + BMI + Smoker + Sex + Age,
+                    data = trainData,
+                    method = "rpart",
+                    trControl = train_control,
+                    tuneGrid = tune_grid,
+                    metric = "logLoss")
+
+# Print the best model and its parameters
+print(tree_model)
+```
+
+
+## Random Forest
+```{r}
+# Load in required package
+library(randomForest)
+# Setting the seed to make things reproducible
+set.seed(123)
+# Define the control for cross-validation
+train_control <- trainControl(method = "cv", 
+                              number = 3, 
+                              summaryFunction = mnLogLoss, 
+                              classProbs = TRUE)
+# Define a grid for the number of features (mtry) considered at each split
+tune_grid <- expand.grid(mtry = c(1:5))
+# Train a random forest model
+rf_model <- train(Diabetes ~ HighBP + HighChol + BMI + Smoker + Sex + Age,
+                  data = trainData,
+                  method = "rf",
+                  trControl = train_control,
+                  tuneGrid = tune_grid,
+                  metric = "logLoss",
+                  ntree = 100)  # Number of trees
+
+# Print the best model and its parameters
+print(rf_model)
+```
+
+
+## Final Model Selection
+```{r}
+# Ensure the test set has the same factor levels as the training data
+testData$Diabetes <- factor(testData$Diabetes, levels = levels(trainData$Diabetes))
+
+# Generate probability predictions for each model
+# Logistic Regression
+logistic_pred <- predict(logistic_model1, newdata = testData, type = "prob")[,2]  # Probability of "Diabetes"
+
+# Classification Tree
+tree_pred <- predict(tree_model, newdata = testData, type = "prob")[,2]  # Probability of "Diabetes"
+
+# Random Forest
+rf_pred <- predict(rf_model, newdata = testData, type = "prob")[,2]  # Probability of "Diabetes"
+
+# True values for the test set
+true_values <- as.numeric(testData$Diabetes) - 1  # Convert to 0 and 1
+
+# Function to calculate Log Loss
+log_loss <- function(true_values, predictions) {
+  epsilon <- 1e-15  # Small value to avoid log(0)
+  predictions <- pmax(pmin(predictions, 1 - epsilon), epsilon)  # Clip predictions
+  -mean(true_values * log(predictions) + (1 - true_values) * log(1 - predictions))
+}
+
+# Calculate Log Loss for each model
+logistic_log_loss <- log_loss(true_values, logistic_pred)
+tree_log_loss <- log_loss(true_values, tree_pred)
+rf_log_loss <- log_loss(true_values, rf_pred)
+
+# Print Log Loss for each model
+cat("Logistic Regression Log Loss:", logistic_log_loss, "\n")
+cat("Classification Tree Log Loss:", tree_log_loss, "\n")
+cat("Random Forest Log Loss:", rf_log_loss, "\n")
+
+# Compare models based on Log Loss
+log_loss_results <- data.frame(
+  Model = c("Logistic Regression", "Classification Tree", "Random Forest"),
+  LogLoss = c(logistic_log_loss, tree_log_loss, rf_log_loss)
+)
+
+# Print results
+print(log_loss_results)
+
+# Determine the best model
+best_model <- log_loss_results[which.min(log_loss_results$LogLoss), ]
+cat("The best model is:", best_model$Model, "with a Log Loss of", best_model$LogLoss, "\n")
+```
+
