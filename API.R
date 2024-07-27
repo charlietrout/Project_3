@@ -76,6 +76,16 @@ function(HighBP = "No High BP", HighChol = "No High Cholesterol", BMI = 30, Smok
 function() {
   list(
     name = "Charlie Armentrout",
-    url = ""
+    url = "https://charlie-trout.github.io/predictive-model-api-docker/"
   )
 }
+
+# Example function calls (for testing)
+# 1. Testing the /pred endpoint with default parameters
+# curl -X POST "http://localhost:8000/pred" -H "Content-Type: application/json" -d '{"HighBP": "No High BP", "HighChol": "No High Cholesterol", "BMI": 30, "Age": "50-54"}'
+
+# 2. Testing the /pred endpoint with custom parameters
+# curl -X POST "http://localhost:8000/pred" -H "Content-Type: application/json" -d '{"HighBP": "High BP", "HighChol": "High Cholesterol", "BMI": 28, "Age": "40-44"}'
+
+# 3. Testing the /info endpoint
+# curl "http://localhost:8000/info"
