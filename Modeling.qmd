@@ -80,6 +80,7 @@ summary(resamples)
 
 
 ## Classification Tree
+\> A classification tree is a type of decision tree used for classifying a dataset into distinct categories. It is made by recursively splitting the data based on variable values, with the aim of creating subsets that are as homogeneous as possible with respect to the response variable. It involves selecting the best feature at each node, based on criteria like Gini impurity or entropy, and continuing to make branches until a stopping criterion is met. The leaf nodes then represent the final class labels. We may try and use it here in this case as classification trees handle categorical and non-categorical predictors well. It also allows for clear and intuitive understanding of how different factors contribute to the risk of diabetes and provides insights into feature importance, showing us the key factors leading to the development of diabetes. Furthermore, it is made to handle a categorical response variable since its sole purpose is to classify, so it works for this dataset in this case.
 ```{r}
 # Load in required packages
 library(rpart)
@@ -109,6 +110,7 @@ print(tree_model)
 
 
 ## Random Forest
+\> A random forest is an ensemble learning method that builds multiple decision trees and combines their predictions to improve overall model performance and robustness. Unlike single decision trees, which can easily overfit to training data and may not generalize well to new and unseen data, a random forest minimizes overfitting by averaging the predictions of numerous trees, each trained on different subsets of data along with features which makes sure all aspects of the data are captured. Going over the general process, it begins with bootstrap sampling, where multiple subsets of the training data are created through random sampling with replacement. For each subset, a decision tree is trained using feature randomization, where a random subset of features is considered for each node split, reducing the correlation between the trees and preventing overfitting. Once the trees are trained, the model combines predictions from all the trees and makes a final prediction which is done through majority voting. This ensemble approach compared to the single classification tree approach enhances predictive accuracy and reduces variance, making it more reliable and stable. It also is able to handle noisy data and large datasets more effectively, providing a more accurate and generalized model while sacrificing some interpretability. This makes it a preferred choice for complex tasks where a single classification tree may not perform as well.
 ```{r}
 # Load in required package
 library(randomForest)
